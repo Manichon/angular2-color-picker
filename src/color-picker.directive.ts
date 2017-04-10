@@ -1,7 +1,7 @@
-import {Component, OnChanges, Directive, Input, Output, ViewContainerRef, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
-import {ColorPickerService} from './color-picker.service';
-import {Rgba, Hsla, Hsva, SliderPosition, SliderDimension} from './classes';
-import {NgModule, Compiler, ReflectiveInjector} from '@angular/core';
+import { Component, OnChanges, Directive, Input, Output, ViewContainerRef, ElementRef, EventEmitter, OnInit, ViewChild, ComponentFactoryResolver, Type } from '@angular/core';
+import { ColorPickerService } from './color-picker.service';
+import { Rgba, Hsla, Hsva, SliderPosition, SliderDimension } from './classes';
+import { NgModule, Compiler, ReflectiveInjector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 @Directive({
@@ -40,7 +40,7 @@ export class ColorPickerDirective implements OnInit, OnChanges {
     private created: boolean;
     private ignoreChanges: boolean = false;
 
-    constructor(private compiler: Compiler, private vcRef: ViewContainerRef, private el: ElementRef, private service: ColorPickerService) {
+    constructor(private compiler: Compiler, private vcRef: ViewContainerRef, private el: ElementRef, private service: ColorPickerService, private componentFactoryResolver: ComponentFactoryResolver) {
         this.created = false;
     }
 
@@ -77,21 +77,17 @@ export class ColorPickerDirective implements OnInit, OnChanges {
     }
 
     openDialog() {
-        if (!this.created) {
-            this.created = true;
-            this.compiler.compileModuleAndAllComponentsAsync(DynamicCpModule)
-                .then(factory => {
-                    const compFactory = factory.componentFactories.find(x => x.componentType === DialogComponent);
-                    const injector = ReflectiveInjector.fromResolvedProviders([], this.vcRef.parentInjector);
-                    const cmpRef = this.vcRef.createComponent(compFactory, 0, injector, []);
-                    cmpRef.instance.setDialog(this, this.el, this.colorPicker, this.cpPosition, this.cpPositionOffset,
-                        this.cpPositionRelativeToArrow, this.cpOutputFormat, this.cpPresetLabel, this.cpPresetColors,
-                        this.cpCancelButton, this.cpCancelButtonClass, this.cpCancelButtonText,
-                        this.cpOKButton, this.cpOKButtonClass, this.cpOKButtonText, this.cpHeight, this.cpWidth,
-                        this.cpIgnoredElements, this.cpDialogDisplay, this.cpSaveClickOutside, this.cpAlphaChannel);
-                    this.dialog = cmpRef.instance;
-                });
-        } else if (this.dialog) {
+        let dComponent = new DialogContent(DialogComponent, {});
+        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(dComponent.component);
+
+        let componentRef = this.vcRef.createComponent(componentFactory);
+        componentRef.instance.setDialog(this, this.el, this.colorPicker, this.cpPosition, this.cpPositionOffset,
+            this.cpPositionRelativeToArrow, this.cpOutputFormat, this.cpPresetLabel, this.cpPresetColors,
+            this.cpCancelButton, this.cpCancelButtonClass, this.cpCancelButtonText,
+            this.cpOKButton, this.cpOKButtonClass, this.cpOKButtonText, this.cpHeight, this.cpWidth,
+            this.cpIgnoredElements, this.cpDialogDisplay, this.cpSaveClickOutside, this.cpAlphaChannel);
+        this.dialog = componentRef.instance;
+        if (this.dialog) {
             this.dialog.openDialog(this.colorPicker);
         }
     }
@@ -197,6 +193,12 @@ export class SliderDirective {
     }
 }
 
+
+export class DialogContent {
+    public constructor(public component: Type<any>, public data: any) { }
+}
+
+
 @Component({
     selector: 'color-picker',
     templateUrl: './templates/default/color-picker.html',
@@ -293,7 +295,7 @@ export class DialogComponent implements OnInit {
     ngOnInit() {
         let alphaWidth = this.alphaSlider.nativeElement.offsetWidth;
         let hueWidth = this.hueSlider.nativeElement.offsetWidth;
-        this.sliderDimMax = new SliderDimension(hueWidth, this.cpWidth, 130, alphaWidth);
+        this.sliderDimMax = new SliderDimension(this.cpWidth - 90, this.cpWidth, 130, this.cpWidth - 90);
         this.slider = new SliderPosition(0, 0, 0, 0);
         if (this.cpOutputFormat === 'rgba') {
             this.format = 1;
@@ -311,7 +313,25 @@ export class DialogComponent implements OnInit {
         this.initialColor = color;
     }
 
+    init() {
+        let alphaWidth = this.alphaSlider.nativeElement.offsetWidth;
+        let hueWidth = this.hueSlider.nativeElement.offsetWidth;
+        // this.sliderDimMax = new SliderDimension(hueWidth, this.cpWidth, 130, alphaWidth);
+        this.sliderDimMax = new SliderDimension(this.cpWidth - 90, this.cpWidth, 130, this.cpWidth - 90);
+        this.slider = new SliderPosition(0, 0, 0, 0);
+        if (this.cpOutputFormat === 'rgba') {
+            this.format = 1;
+        } else if (this.cpOutputFormat === 'hsla') {
+            this.format = 2;
+        } else {
+            this.format = 0;
+        }
+    }
+
     openDialog(color: any, emit: boolean = true) {
+        this.init();
+        this.listenerMouseDown = (event: any) => { this.onMouseDown(event) };
+        this.listenerResize = () => { this.onResize() };
         this.setInitialColor(color);
         this.setColorFromString(color, emit);
         this.openColorPicker();
@@ -367,6 +387,7 @@ export class DialogComponent implements OnInit {
             document.addEventListener('mousedown', this.listenerMouseDown);
             window.addEventListener('resize', this.listenerResize);
         }
+        this.init();
     }
 
     closeColorPicker() {
@@ -489,6 +510,7 @@ export class DialogComponent implements OnInit {
         let hueRgba = this.service.denormalizeRGBA(this.service.hsvaToRgba(new Hsva(this.hsva.h, 1, 1, 1)));
 
         this.hslaText = new Hsla(Math.round((hsla.h) * 360), Math.round(hsla.s * 100), Math.round(hsla.l * 100), Math.round(hsla.a * 100) / 100);
+
         this.rgbaText = new Rgba(rgba.r, rgba.g, rgba.b, Math.round(rgba.a * 100) / 100);
         this.hexText = this.service.hexText(rgba, this.cpAlphaChannel === 'hex8');
 
@@ -534,6 +556,7 @@ export class DialogComponent implements OnInit {
 
 @NgModule({
     imports: [BrowserModule],
-    declarations: [DialogComponent, TextDirective, SliderDirective]
+    declarations: [DialogComponent, TextDirective, SliderDirective],
+    entryComponents: [DialogComponent]
 })
-class DynamicCpModule { };
+export class DynamicCpModule { };

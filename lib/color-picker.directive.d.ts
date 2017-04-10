@@ -1,4 +1,4 @@
-import { OnChanges, ViewContainerRef, ElementRef, EventEmitter, OnInit } from '@angular/core';
+import { OnChanges, ViewContainerRef, ElementRef, EventEmitter, OnInit, ComponentFactoryResolver, Type } from '@angular/core';
 import { ColorPickerService } from './color-picker.service';
 import { Compiler } from '@angular/core';
 export declare class ColorPickerDirective implements OnInit, OnChanges {
@@ -6,6 +6,7 @@ export declare class ColorPickerDirective implements OnInit, OnChanges {
     private vcRef;
     private el;
     private service;
+    private componentFactoryResolver;
     colorPicker: string;
     colorPickerChange: EventEmitter<string>;
     cpToggle: boolean;
@@ -32,7 +33,7 @@ export declare class ColorPickerDirective implements OnInit, OnChanges {
     private dialog;
     private created;
     private ignoreChanges;
-    constructor(compiler: Compiler, vcRef: ViewContainerRef, el: ElementRef, service: ColorPickerService);
+    constructor(compiler: Compiler, vcRef: ViewContainerRef, el: ElementRef, service: ColorPickerService, componentFactoryResolver: ComponentFactoryResolver);
     ngOnChanges(changes: any): void;
     ngOnInit(): void;
     onClick(): void;
@@ -62,6 +63,11 @@ export declare class SliderDirective {
     stop(): void;
     getX(event: any): number;
     getY(event: any): number;
+}
+export declare class DialogContent {
+    component: Type<any>;
+    data: any;
+    constructor(component: Type<any>, data: any);
 }
 export declare class DialogComponent implements OnInit {
     private el;
@@ -113,6 +119,7 @@ export declare class DialogComponent implements OnInit {
     setDialog(instance: any, elementRef: ElementRef, color: any, cpPosition: string, cpPositionOffset: string, cpPositionRelativeToArrow: boolean, cpOutputFormat: string, cpPresetLabel: string, cpPresetColors: Array<string>, cpCancelButton: boolean, cpCancelButtonClass: string, cpCancelButtonText: string, cpOKButton: boolean, cpOKButtonClass: string, cpOKButtonText: string, cpHeight: string, cpWidth: string, cpIgnoredElements: any, cpDialogDisplay: string, cpSaveClickOutside: boolean, cpAlphaChannel: string): void;
     ngOnInit(): void;
     setInitialColor(color: any): void;
+    init(): void;
     openDialog(color: any, emit?: boolean): void;
     cancelColor(): void;
     oKColor(): void;
@@ -160,4 +167,6 @@ export declare class DialogComponent implements OnInit {
     update(emit?: boolean): void;
     isDescendant(parent: any, child: any): boolean;
     createBox(element: any, offset: boolean): any;
+}
+export declare class DynamicCpModule {
 }

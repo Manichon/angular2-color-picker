@@ -1,4 +1,3 @@
-import { COMPILER_PROVIDERS } from '@angular/compiler';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -7,7 +6,7 @@ import { ColorPickerDirective, DynamicCpModule } from './color-picker.directive'
 
 @NgModule({
     imports: [CommonModule, DynamicCpModule],
-    providers: [ColorPickerService, COMPILER_PROVIDERS],
+    providers: [ColorPickerService],
     declarations: [ColorPickerDirective],
     exports: [ColorPickerDirective]
 })
