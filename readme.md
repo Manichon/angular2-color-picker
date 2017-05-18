@@ -2,12 +2,11 @@
 Angular 2 Color Picker Directive/Component with no dependencies required.<br />
 This is a Color Picker Directive/Component for Angular 2.
 
-# Demo page
-http://alberplz.github.io/angular2-color-picker/examples/index.html
+
 
 # Installation
 ```bash
-npm i --save angular2-color-picker
+npm i --save angular2-color-picker-mani
 ```
 
 # Usage
@@ -57,14 +56,7 @@ var packages = {
         'angular2-color-picker': {main:'index.js', defaultExtension: 'js'}
     };
 ```
-#Build
-```bash
-git clone https://github.com/Alberplz/angular2-color-picker.git
-npm install
-cd agular2-color-picker
-npm run build
-gulp copylib
-```
+
 
 #Options
 Default option is the first item.
@@ -91,9 +83,6 @@ Default option is the first item.
 [cpAlphaChannel]="'hex6', 'hex8', 'disabled'"
 ```
 
-#Extra content
-If you want to change precalculated images for color picker sliders, you can find a little script in this project:
-https://github.com/Alberplz/angular-colorpicker-directive
 
 #Tested in:
 * Chrome
@@ -102,6 +91,3 @@ https://github.com/Alberplz/angular-colorpicker-directive
 * Opera
 * Safari
 * Internet Explorer
-
-#For previous version of Angular:
-https://github.com/Alberplz/angular-colorpicker-directive
