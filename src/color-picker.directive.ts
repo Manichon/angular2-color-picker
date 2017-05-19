@@ -12,33 +12,33 @@ import { BrowserModule } from '@angular/platform-browser';
     }
 })
 export class ColorPickerDirective implements OnInit, OnChanges {
-    @Input('colorPicker') colorPicker: string;
-    @Output('colorPickerChange') colorPickerChange = new EventEmitter<string>(true);
-    @Input('cpToggle') cpToggle: boolean;
-    @Output('cpToggleChange') cpToggleChange = new EventEmitter<boolean>(true);
-    @Input('cpPosition') cpPosition: string = 'right';
-    @Input('cpPositionOffset') cpPositionOffset: string = '0%';
-    @Input('cpPositionRelativeToArrow') cpPositionRelativeToArrow: boolean = false;
-    @Input('cpOutputFormat') cpOutputFormat: string = 'hex';
-    @Input('cpPresetLabel') cpPresetLabel: string = 'Preset colors';
-    @Input('cpPresetColors') cpPresetColors: Array<string>;
-    @Input('cpCancelButton') cpCancelButton: boolean = false;
-    @Input('cpCancelButtonClass') cpCancelButtonClass: string = 'cp-cancel-button-class';
-    @Input('cpCancelButtonText') cpCancelButtonText: string = 'Cancel';
-    @Input('cpOKButton') cpOKButton: boolean = false;
-    @Input('cpOKButtonClass') cpOKButtonClass: string = 'cp-ok-button-class';
-    @Input('cpOKButtonText') cpOKButtonText: string = 'OK';
-    @Input('cpFallbackColor') cpFallbackColor: string = '#fff';
-    @Input('cpHeight') cpHeight: string = 'auto';
-    @Input('cpWidth') cpWidth: string = '230px';
-    @Input('cpIgnoredElements') cpIgnoredElements: any = [];
-    @Input('cpDialogDisplay') cpDialogDisplay: string = 'popup';
-    @Input('cpSaveClickOutside') cpSaveClickOutside: boolean = true;
-    @Input('cpAlphaChannel') cpAlphaChannel: string = 'hex6';
+    @Input('colorPicker') public colorPicker: string;
+    @Output('colorPickerChange') public colorPickerChange = new EventEmitter<string>(true);
+    @Input('cpToggle') public cpToggle: boolean;
+    @Output('cpToggleChange') public cpToggleChange = new EventEmitter<boolean>(true);
+    @Input('cpPosition') public cpPosition: string = 'right';
+    @Input('cpPositionOffset') public cpPositionOffset: string = '0%';
+    @Input('cpPositionRelativeToArrow') public cpPositionRelativeToArrow: boolean = false;
+    @Input('cpOutputFormat') public cpOutputFormat: string = 'hex';
+    @Input('cpPresetLabel') public cpPresetLabel: string = 'Preset colors';
+    @Input('cpPresetColors') public cpPresetColors: Array<string>;
+    @Input('cpCancelButton') public cpCancelButton: boolean = false;
+    @Input('cpCancelButtonClass') public cpCancelButtonClass: string = 'cp-cancel-button-class';
+    @Input('cpCancelButtonText') public cpCancelButtonText: string = 'Cancel';
+    @Input('cpOKButton') public cpOKButton: boolean = false;
+    @Input('cpOKButtonClass') public cpOKButtonClass: string = 'cp-ok-button-class';
+    @Input('cpOKButtonText') public cpOKButtonText: string = 'OK';
+    @Input('cpFallbackColor') public cpFallbackColor: string = '#fff';
+    @Input('cpHeight') public cpHeight: string = 'auto';
+    @Input('cpWidth') public cpWidth: string = '230px';
+    @Input('cpIgnoredElements') public cpIgnoredElements: any = [];
+    @Input('cpDialogDisplay') public cpDialogDisplay: string = 'popup';
+    @Input('cpSaveClickOutside') public cpSaveClickOutside: boolean = true;
+    @Input('cpAlphaChannel') public cpAlphaChannel: string = 'hex6';
 
-    private dialog: any;
-    private created: boolean;
-    private ignoreChanges: boolean = false;
+    public dialog: any;
+    public created: boolean;
+    public ignoreChanges: boolean = false;
 
     constructor(private compiler: Compiler, private vcRef: ViewContainerRef, private el: ElementRef, private service: ColorPickerService, private componentFactoryResolver: ComponentFactoryResolver) {
         this.created = false;
@@ -206,54 +206,54 @@ export class DialogContent {
 })
 
 export class DialogComponent implements OnInit {
-    private hsva: Hsva;
-    private rgbaText: Rgba;
-    private hslaText: Hsla;
-    private hexText: string;
-    private outputColor: string;
-    private selectedColor: string;
-    private alphaSliderColor: string;
-    private hueSliderColor: string;
-    private slider: SliderPosition;
-    private sliderDimMax: SliderDimension;
-    private format: number;
-    private show: boolean;
-    private top: number;
-    private left: number;
-    private position: string;
-    private directiveInstance: any;
-    private initialColor: string;
-    private directiveElementRef: ElementRef;
+    public hsva: Hsva;
+    public rgbaText: Rgba;
+    public hslaText: Hsla;
+    public hexText: string;
+    public outputColor: string;
+    public selectedColor: string;
+    public alphaSliderColor: string;
+    public hueSliderColor: string;
+    public slider: SliderPosition;
+    public sliderDimMax: SliderDimension;
+    public format: number;
+    public show: boolean;
+    public top: number;
+    public left: number;
+    public position: string;
+    public directiveInstance: any;
+    public initialColor: string;
+    public directiveElementRef: ElementRef;
 
-    private listenerMouseDown: any;
-    private listenerResize: any;
+    public listenerMouseDown: any;
+    public listenerResize: any;
 
-    private cpPosition: string;
-    private cpPositionOffset: number;
-    private cpOutputFormat: string;
-    private cpPresetLabel: string;
-    private cpPresetColors: Array<string>;
-    private cpCancelButton: boolean;
-    private cpCancelButtonClass: string;
-    private cpCancelButtonText: string;
-    private cpOKButton: boolean;
-    private cpOKButtonClass: string;
-    private cpOKButtonText: string;
-    private cpHeight: number;
-    private cpWidth: number;
-    private cpIgnoredElements: any;
-    private cpDialogDisplay: string;
-    private cpSaveClickOutside: boolean;
-    private cpAlphaChannel: string;
+    public cpPosition: string;
+    public cpPositionOffset: number;
+    public cpOutputFormat: string;
+    public cpPresetLabel: string;
+    public cpPresetColors: Array<string>;
+    public cpCancelButton: boolean;
+    public cpCancelButtonClass: string;
+    public cpCancelButtonText: string;
+    public cpOKButton: boolean;
+    public cpOKButtonClass: string;
+    public cpOKButtonText: string;
+    public cpHeight: number;
+    public cpWidth: number;
+    public cpIgnoredElements: any;
+    public cpDialogDisplay: string;
+    public cpSaveClickOutside: boolean;
+    public cpAlphaChannel: string;
 
-    private dialogArrowSize: number = 10;
-    private dialogArrowOffset: number = 15;
-    private arrowTop: number;
+    public dialogArrowSize: number = 10;
+    public dialogArrowOffset: number = 15;
+    public arrowTop: number;
 
-    @ViewChild('hueSlider') hueSlider: any;
-    @ViewChild('alphaSlider') alphaSlider: any;
+    @ViewChild('hueSlider') public hueSlider: any;
+    @ViewChild('alphaSlider') public alphaSlider: any;
 
-    @ViewChild('dialogPopup') dialogElement: any;
+    @ViewChild('dialogPopup') public dialogElement: any;
 
     constructor(private el: ElementRef, private service: ColorPickerService) { }
 
