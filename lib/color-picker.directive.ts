@@ -36,9 +36,9 @@ export class ColorPickerDirective implements OnInit, OnChanges {
     @Input('cpSaveClickOutside') public cpSaveClickOutside: boolean = true;
     @Input('cpAlphaChannel') public cpAlphaChannel: string = 'hex6';
 
-    private dialog: any;
-    private created: boolean;
-    private ignoreChanges: boolean = false;
+    public dialog: any;
+    public created: boolean;
+    public ignoreChanges: boolean = false;
 
     constructor(private compiler: Compiler, private vcRef: ViewContainerRef, private el: ElementRef, private service: ColorPickerService, private componentFactoryResolver: ComponentFactoryResolver) {
         this.created = false;
@@ -138,12 +138,12 @@ export class TextDirective {
     }
 })
 export class SliderDirective {
-    @Output('newValue') newValue = new EventEmitter<any>();
-    @Input('slider') slider: string;
-    @Input('rgX') rgX: number;
-    @Input('rgY') rgY: number;
-    private listenerMove: any;
-    private listenerStop: any;
+    @Output('newValue') public newValue = new EventEmitter<any>();
+    @Input('slider') public slider: string;
+    @Input('rgX') public rgX: number;
+    @Input('rgY') public rgY: number;
+    public listenerMove: any;
+    public listenerStop: any;
 
     constructor(private el: ElementRef) {
         this.listenerMove = (event: any) => { this.move(event) };
@@ -282,49 +282,49 @@ export class DialogContent {
 })
 
 export class DialogComponent implements OnInit {
-    private hsva: Hsva;
-    private rgbaText: Rgba;
-    private hslaText: Hsla;
-    private hexText: string;
-    private outputColor: string;
-    private selectedColor: string;
-    private alphaSliderColor: string;
-    private hueSliderColor: string;
-    private slider: SliderPosition;
-    private sliderDimMax: SliderDimension;
-    private format: number;
-    private show: boolean;
-    private top: number;
-    private left: number;
-    private position: string;
-    private directiveInstance: any;
-    private initialColor: string;
-    private directiveElementRef: ElementRef;
+   public hsva: Hsva;
+   public rgbaText: Rgba;
+   public hslaText: Hsla;
+   public hexText: string;
+   public outputColor: string;
+   public selectedColor: string;
+   public alphaSliderColor: string;
+   public hueSliderColor: string;
+   public slider: SliderPosition;
+   public sliderDimMax: SliderDimension;
+   public format: number;
+   public show: boolean;
+   public top: number;
+   public left: number;
+   public position: string;
+   public directiveInstance: any;
+   public initialColor: string;
+   public directiveElementRef: ElementRef;
 
-    private listenerMouseDown: any;
-    private listenerResize: any;
+   public listenerMouseDown: any;
+   public listenerResize: any;
 
-    private cpPosition: string;
-    private cpPositionOffset: number;
-    private cpOutputFormat: string;
-    private cpPresetLabel: string;
-    private cpPresetColors: Array<string>;
-    private cpCancelButton: boolean;
-    private cpCancelButtonClass: string;
-    private cpCancelButtonText: string;
-    private cpOKButton: boolean;
-    private cpOKButtonClass: string;
-    private cpOKButtonText: string;
-    private cpHeight: number;
-    private cpWidth: number;
-    private cpIgnoredElements: any;
-    private cpDialogDisplay: string;
-    private cpSaveClickOutside: boolean;
-    private cpAlphaChannel: string;
+   public cpPosition: string;
+   public cpPositionOffset: number;
+   public cpOutputFormat: string;
+   public cpPresetLabel: string;
+   public cpPresetColors: Array<string>;
+   public cpCancelButton: boolean;
+   public cpCancelButtonClass: string;
+   public cpCancelButtonText: string;
+   public cpOKButton: boolean;
+   public cpOKButtonClass: string;
+   public cpOKButtonText: string;
+   public cpHeight: number;
+   public cpWidth: number;
+   public cpIgnoredElements: any;
+   public cpDialogDisplay: string;
+   public cpSaveClickOutside: boolean;
+   public cpAlphaChannel: string;
 
-    private dialogArrowSize: number = 10;
-    private dialogArrowOffset: number = 15;
-    private arrowTop: number;
+   public dialogArrowSize: number = 10;
+   public dialogArrowOffset: number = 15;
+   public arrowTop: number;
 
     @ViewChild('hueSlider') hueSlider: any;
     @ViewChild('alphaSlider') alphaSlider: any;
